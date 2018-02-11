@@ -1,0 +1,23 @@
+{
+  "name": "cli-hangman",
+  "version": "1.0.0",
+  "description": "A Command Line Interface Hangman Game",
+  "main": "index.js",
+  "dependencies": {
+    "inquirer": "^5.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awyand/CLI-Hangman.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awyand/CLI-Hangman/issues"
+  },
+  "homepage": "https://github.com/awyand/CLI-Hangman#readme"
+}
