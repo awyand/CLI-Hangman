@@ -31,7 +31,7 @@ CLI-Hangman utilizes three core files for functionality:
 
 Once CLI-Hangman is installed, it's time to start playing.  Upon launching the game, the user is presented with the following welcome screen and is prompted to choose from one of the four categories:
 
-[Welcome Image](README_images/welcome.png)
+![Welcome Image](README_images/welcome.png)
 
 Once a category is selected, the user is presented with basic game information:
 * Category Name
@@ -41,28 +41,28 @@ Once a category is selected, the user is presented with basic game information:
 
 The user is also presented with a game board, initially filled with underscores representing each letter in the current word, and a prompt "Please enter a guess: ".
 
-[Game Board Image](README_images/word.png)
+![Game Board Image](README_images/word.png)
 
 This prompt accepts exactly one letter and will present the user with an invalid input message if they enter more than one character or a non-letter character:
 
-[Input Validation Image](README_images/input.png)
+![Input Validation Image](README_images/input.png)
 
 This prompt requires the user to acknowledge that they understand the input rules and will only continue the game if they answer "Y" (yes/true).
 
 As the user enters letters, the game board will update accordingly.  If the guessed letter is in the current word and hasn't been guessed yet, it will be presented on the game board.  If the guessed letter is NOT in the current word and has NOT already been guessed, it will be added to the Guessed Letters list and Guesses Remaining will be reduced by 1.  If the guessed letter is NOT in the current word but HAS been guessed already, the user will not be penalized.
 
-[Game Progression Image](README_images/game.png)
+![Game Progression Image](README_images/game.png)
 
 If the user guesses an entire word correctly, they will be presented with the following options:
 
-[Correct Word Choices Image](README_images/correct.png)
+![Correct Word Choices Image](README_images/correct.png)
 
 If the user chooses to continue in the current category, a different word will be chosen from the current category, and this will continue until there are no words remaining in the category.  If the user correctly guesses all words in a category, they will be presented with the following options:
 
-[Category Complete Image](README_images/category_complete.png)
+![Category Complete Image](README_images/category_complete.png)
 
 In any situation, if the user chooses a different category, all categories will reset to their original states, meaning that the user must guess all words in a category again to make it to the end.
 
 If the user runs out of guesses on a word, they will be presented with the correct answer and given the following options:
 
-[Out of Guesses Image](README_images/lose.png)
+![Out of Guesses Image](README_images/lose.png)
