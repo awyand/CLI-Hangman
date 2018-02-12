@@ -265,7 +265,7 @@ var endGame = function() {
 var gameOver = function() {
   // Game over message
   console.log("GAME OVER. You ran out of guesses.");
-  console.log(`The correct answer was ${currentWord}\n`);
+  console.log(`The correct answer was ${currentWord}.\n`);
   // Ask user what they want to do
   inquirer.prompt([
     {
