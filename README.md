@@ -9,7 +9,7 @@ Command Line Interface Hangman (CLI-Hangman) is a simple Node.js game with a sci
 
 CLI-Hangman utilizes Node Package Manager (NPM) to install features.  The user will need to install a number of packages in order to play.
 
-### Clone LIRI Repository
+### Clone CLI_Hangman Repository
 
 In the console, navigate to the directory where you wish to install CLI-Hangman.  Type ```git clone https://github.com/awyand/CLI-Hangman.git``` to clone the CLI-Hangman repository.  This will create a local copy of CLI-Hangman files on your system.
 
