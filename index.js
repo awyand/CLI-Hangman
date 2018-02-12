@@ -53,10 +53,6 @@ var welcome = function() {
 var chooseCategory = function() {
   // Initialize global variables
   currentWords = [];
-  currentWord = "";
-  currentWordObject = {};
-  guessesRemaining = 8;
-  lettersGuessed = [];
   currentCategory = "";
 
   // Prompt user to choose category
@@ -92,6 +88,11 @@ var chooseCategory = function() {
 
 // Choose Word function
 var chooseWord = function(category) {
+  // Initialize global variables
+  currentWord = "";
+  currentWordObject = {};
+  guessesRemaining = 8;
+  lettersGuessed = [];
   // Copy chosen array into currentWords array
   currentWords = category.slice();
   // Choose a random word from currentWords array
