@@ -130,7 +130,6 @@ var userGuess = function() {
   } else {
     // Log game information
     console.log(`Category: ${currentCategory}`);
-    console.log(`Current Word: ${currentWord}`); // Testing
     console.log(`Words Remaining in Category: ${wordsRemaining}`);
     console.log(`Guessed Letters: ${lettersGuessed.join(" ")}`);
     console.log(`Guesses Remaining: ${guessesRemaining}`);
