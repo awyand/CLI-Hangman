@@ -17,6 +17,7 @@ var guessesRemaining;
 var wordsRemaining;
 var lettersGuessed;
 var lettersRemaining;
+var currentCategory;
 
 // Possible words split into categories
 var wordsGuardians = ["STARLORD", "QUILL", "DRAX", "GROOT", "ROCKET", "GAMORA", "TASERFACE"];
@@ -34,15 +35,16 @@ var welcome = function() {
   clear();
   // Splash Screen
   console.log(`
-  WELCOME TO...
+                                WELCOME TO
 
   ██╗  ██╗  █████╗  ███╗   ██╗  ██████╗  ███╗   ███╗  █████╗  ███╗   ██╗
   ██║  ██║ ██╔══██╗ ████╗  ██║ ██╔════╝  ████╗ ████║ ██╔══██╗ ████╗  ██║
   ███████║ ███████║ ██╔██╗ ██║ ██║  ███╗ ██╔████╔██║ ███████║ ██╔██╗ ██║
   ██╔══██║ ██╔══██║ ██║╚██╗██║ ██║   ██║ ██║╚██╔╝██║ ██╔══██║ ██║╚██╗██║
   ██║  ██║ ██║  ██║ ██║ ╚████║ ╚██████╔╝ ██║ ╚═╝ ██║ ██║  ██║ ██║ ╚████║
-  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝  ╚═════╝  ╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝\n`);
+  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝  ╚═════╝  ╚═╝     ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝
 
+                           SCI-FI MOVIE EDITION                         \n`);
   // Call choose category function
   chooseCategory();
 }
@@ -55,6 +57,7 @@ var chooseCategory = function() {
   currentWordObject = {};
   guessesRemaining = 8;
   lettersGuessed = [];
+  currentCategory = "";
 
   // Prompt user to choose category
   inquirer.prompt([
@@ -68,15 +71,19 @@ var chooseCategory = function() {
     // Logic for calling chooseWord function depending on user choice
     switch (response.category) {
       case "Guardians of the Galaxy (Easy)":
+        currentCategory = "Guardians of the Galaxy";
         chooseWord(wordsGuardians);
         break;
       case "The Matrix (Medium)":
+        currentCategory = "The Matrix";
         chooseWord(wordsMatrix);
         break;
       case "Blade Runner (Hard)":
+        currentCategory = "Blade Runner";
         chooseWord(wordsBlade);
         break;
       case "Star Wars (Very Hard)":
+        currentCategory = "Star Wars";
         chooseWord(wordsStar);
         break;
     }
@@ -85,8 +92,8 @@ var chooseCategory = function() {
 
 // Choose Word function
 var chooseWord = function(category) {
-  // Set currentWords array to chosen category array
-  currentWords = category;
+  // Copy chosen array into currentWords array
+  currentWords = category.slice();
   // Choose a random word from currentWords array
   var randomIndex = Math.floor(Math.random() * currentWords.length);
   currentWord = currentWords[randomIndex];
@@ -100,7 +107,7 @@ var chooseWord = function(category) {
   userGuess();
 }
 
-// Define userGuess function
+// userGuess function
 var userGuess = function() {
   // Clear console
   clear();
@@ -118,13 +125,15 @@ var userGuess = function() {
       // Call nextRound()
       nextRound();
     }
+  } else if (guessesRemaining === 0) {
+    gameOver();
   } else {
     // Log game information
+    console.log(`Category: ${currentCategory}`);
     console.log(`Current Word: ${currentWord}`); // Testing
-    console.log(`Words Remaining: ${wordsRemaining}`);
-    console.log(`Guessed Letters: `);
+    console.log(`Words Remaining in Category: ${wordsRemaining}`);
+    console.log(`Guessed Letters: ${lettersGuessed.join(" ")}`);
     console.log(`Guesses Remaining: ${guessesRemaining}`);
-    console.log(`Letters Remaining: ${lettersRemaining}`);
 
     currentWordObject.letterString();
 
@@ -142,30 +151,50 @@ var userGuess = function() {
         var currentGuess = response.guess.toUpperCase();
         // Run Word.guessLetter using currentGuess as an argument
         currentWordObject.guessLetter(currentGuess);
-        // Call countLettersRemaining()
-        countLettersRemaining();
+        // Send currentGuess to checkLetterInWord()
+        checkLetterInWord(currentGuess);
         // Call userGuess()
         userGuess();
       } else {
-        inquirer.prompt([
-          {
-            type: "confirm",
-            message: "Please enter only a single letter. Understand? (Y/N)",
-            name: "confirm"
-          }
-        ]).then(function(response) {
-          if (response.confirm === true) {
-            // Call userGuess()
-            userGuess();
-          } else {
-            console.log("I guess you don't understand the rules. Exiting.");
-          }
-        });
+        confirmInputRules();
       }
     });
   }
 };
 
+// confirmInputRules function
+var confirmInputRules = function() {
+  inquirer.prompt([
+    {
+      type: "confirm",
+      message: "Please enter only a single letter. Understand?",
+      name: "confirm"
+    }
+  ]).then(function(response) {
+    if (response.confirm === true) {
+      // Call userGuess()
+      userGuess();
+    } else {
+      confirmInputRules();
+    }
+  });
+}
+
+// checkLetterInWord function
+var checkLetterInWord = function(letterToCheck) {
+  // If letter is not in currentWord
+  if (currentWord.indexOf(letterToCheck) === -1) {
+    // If letter not already in lettersGuessed array
+    if (lettersGuessed.indexOf(letterToCheck) === -1) {
+      // Decrement guessesRemaining
+      guessesRemaining--;
+      // Add letter to lettersGuessed array
+      lettersGuessed.push(letterToCheck);
+    }
+  }
+}
+
+// countLettersRemaining function
 var countLettersRemaining = function() {
   lettersRemaining = 0;
   for (i = 0; i < currentWordObject.letterArr.length; i++) {
@@ -175,6 +204,7 @@ var countLettersRemaining = function() {
   };
 }
 
+// nextRound function
 var nextRound = function() {
   // Tell user they guessed correctly
   console.log("You guessed the word correctly!\n");
@@ -197,12 +227,14 @@ var nextRound = function() {
         chooseCategory();
         break;
       case "Quit game":
-        clear();
+        // Call quitGame
+        quitGame();
         break;
     }
   });
 }
 
+// endGame function
 var endGame = function() {
   // Tell user they guessed correctly and guessed all words in category
   console.log("You guessed all the words in that category!\n");
@@ -222,10 +254,46 @@ var endGame = function() {
         chooseCategory();
         break;
       case "Quit game":
-        clear();
+        // Call quitGame()
+        quitGame();
         break;
     }
   });
+}
+
+// gameOver function
+var gameOver = function() {
+  // Game over message
+  console.log("GAME OVER. You ran out of guesses.");
+  console.log(`The correct answer was ${currentWord}\n`);
+  // Ask user what they want to do
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "choice",
+      message: "Please choose an action",
+      choices: ["Play again", "Quit game"]
+    }
+  ]).then(function(response) {
+    // If user selects play again
+    if (response.choice === "Play again") {
+      // Clear console
+      clear();
+      // Call choose category function
+      chooseCategory();
+    } else {
+      // Otherwise the user chose quit game, so call quitGame()
+      quitGame();
+    }
+  });
+}
+
+// quitGame function
+var quitGame = function() {
+  // Clear console
+  clear();
+  // Print message
+  console.log("Thanks for playing. Goodbye.");
 }
 
 ////////////////////////////
